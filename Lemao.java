@@ -5,8 +5,8 @@ import java.util.Scanner;
 public class Lemao {
     private ArrayList<Course> courses = new ArrayList<Course>();
     private ArrayList<Pengguna> penggunas = new ArrayList<Pengguna>();
+    private ArrayList<ReportCard> report = new ArrayList<ReportCard>();
     private Pengguna loginPengguna;
-
     public static void main(String[] args) {
         Lemao app = new Lemao();
         System.out.println("Welcome to Lemao! Enjoy your Learning");
@@ -37,6 +37,7 @@ public class Lemao {
                     app.registerInstrukturMenu(scanner); 
                     break;
                 case 0:
+                    app.logoutMenu();
                     System.out.println("Sampai Jumpa!");
                     break;
                 default:
@@ -49,28 +50,60 @@ public class Lemao {
 
     public void adminMenu(){
         //TODO: Lengkapi menu instruktur
+        Scanner scanner = new Scanner(System.in);
+        int input;
+        do{
         System.out.println("---------------Admin " + loginPengguna.getName() + " Menu---------------");
         System.out.println("1. Lihat Instruktur");
         System.out.println("2. Verifikasi Instruktur");
         System.out.println("0. Logout");
         System.out.print("Pilih menu: ");
+        input = scanner.nextInt();
+
+        switch(input){
+            case 1:
+                lihatInstruktur(scanner);
+                break;
+            default:
+                System.out.println("Pilihan menu tidak valid.");
+                break;
+
+        }
+
+
+        } while (input != 0);
+        scanner.close();
+
 
     }
 
     public void instrukturMenu(){
         //TODO: Lengkapi menu instruktur
+        Scanner scanner = new Scanner(System.in);
+        int input;
+        do{
         System.out.println("---------------Instruktur " + loginPengguna.getName() + " Menu---------------");
         System.out.println("1. Buat Course");
         System.out.println("2. Lihat Course Saya");
         System.out.println("3. Buat Rapor Murid");
         System.out.println("0. Logout");
         System.out.print("Pilih menu: ");
-    }
+        input = scanner.nextInt();
 
+        switch (input){
+            case 1: 
+                buatCourse(scanner);
+                break;
+            default:
+
+        }
+        } while (input != 0);
+        scanner.close();
+    }
 
     public void muridMenu() {
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        int input ;
         do {
             System.out.println("---------------Murid " + loginPengguna.getName() + " Menu---------------");
             System.out.println("1. Enroll Course");
@@ -78,14 +111,14 @@ public class Lemao {
             System.out.println("3. Lihat Rapor");
             System.out.println("0. Logout");
             System.out.print("Pilih menu: ");
-            choice = scanner.nextInt();
+            input = scanner.nextInt();
     
-            switch (choice) {
+            switch (input) {
                 case 1:
                     enrollCourse(scanner);
                     break;
                 case 2:
-                    
+                    viewCourseAktif(scanner);
                     break;
                 case 3:
                     
@@ -97,16 +130,16 @@ public class Lemao {
                     System.out.println("Pilihan menu tidak valid.");
                     break;
             }
-        } while (choice != 0);
+        } while (input != 0);
         scanner.close();
     }
 
     public void enrollCourse(Scanner scanner){
         System.out.println("Berikut course yang ditawarkan pada Lemao:");
-        int index = 1;
+        int i = 1;
         for (Course course : courses){
-            System.out.println(index + ". Course: " + course.getName() + " - Instruktur: " + course.getInstrukturName());
-            index++;
+            System.out.println(i + ". Course: " + course.getName() + " - Instruktur: " + course.getInstrukturName());
+            i++;
         }
 
         System.out.print("Masukkan nomor course: ");
@@ -127,6 +160,177 @@ public class Lemao {
             System.out.println("Nomor course tidak valid");
         }
     }
+
+    public void viewCourseAktif(Scanner scanner){
+        System.out.println("-------- Course aktif saat ini --------");
+        int i = 1;
+        for (Course course : courses){
+            if (course.isActive()){
+                System.out.println(i + ". Nama course: " + course.getName() + " - Instruktur: " + course.getInstrukturName());
+                i++;
+            }
+        }
+    }
+
+    public void lihatRapor(Scanner scanner){
+        System.out.println("---------- RAPOR ----------");
+        System.out.println("Total point anda: " + ((Murid) loginPengguna).getTotalPoint());
+        System.out.println("Detail: ");
+
+        for (Course course : courses){
+            int i = 1;
+            for (Murid murid : course.getEnrolledStudents()){
+                if (murid.equals(loginPengguna)){
+                    System.out.println("---------- " + i +" ----------");
+                    System.out.println("Nama murid: " + murid.getName());
+                    System.out.println("Nama course: " + course.getName());
+                    System.out.println("Nilai: " + murid.getNilai(course));
+                    System.out.println("Feedback: " + murid.getFeedback(course));
+                    i++;
+
+                }
+            }
+        }
+
+    }
+
+    public void buatCourse(Scanner scanner){
+        System.out.println("--------- Membuat Course  ---------");
+        System.out.println("Jenis Course");
+        System.out.println("1. Course Gratis");
+        System.out.println("2. Course Berbayar");
+        System.out.println("Pilih jenis course: ");
+        int jenisCourse = scanner.nextInt();
+
+        String namaCourse;
+        do {
+            System.out.print("Nama Course: ");
+            namaCourse = scanner.nextLine();
+
+            if (namaCourse.isEmpty()) {
+                System.out.println("Nama Course tidak boleh kosong.");
+            }
+        } while (namaCourse.isEmpty());
+
+        if (jenisCourse == 2){
+            int hargaCourse;
+            do {
+                System.out.print("Harga Course: ");
+                hargaCourse = scanner.nextInt();
+                if (hargaCourse <= 0) {
+                    System.out.println("Harga Course harus lebih dari 0. Silakan isi kembali.");
+                }
+            } while (hargaCourse <= 0);
+
+            courses.add(new Course((Instruktur) loginPengguna, namaCourse));
+            System.out.println("Course berhasil ditambahkan");
+        }
+        else {
+            // Create a new gratis course
+            courses.add(new Course((Instruktur) loginPengguna, namaCourse));
+            System.out.println("Course berhasil ditambahkan");
+        }
+
+      
+
+    }
+
+    public void lihatInstruktur(Scanner scanner){
+        int i = 1;
+        for (Pengguna pengguna : penggunas){
+            if (pengguna instanceof Instruktur){
+                Instruktur instruktur = (Instruktur) pengguna;
+                System.out.println("-------  " + i + "   -------");
+                System.out.println("Nama: " + instruktur.getName());
+                System.out.println("Tanggal lahir: " + instruktur.getDob());
+                System.out.println("Alamat: " + instruktur.getAddress());
+                System.out.println("Status: ");
+                System.out.println("List Course:");
+
+               
+            }
+        }
+    }
+
+    public void buatRaporMurid(Scanner scanner){
+        System.out.println("Berikut merupakan list course anda:");
+        int i = 1;
+        for (Course course : courses){
+            System.out.println(i + ". Nama Course:  " + course.getName() + " - Instruktur: " + course.getInstrukturName());
+            i++;
+        }
+        System.out.println("Masukkan nomor course: ");
+        int nomorCourse = scanner.nextInt();
+
+        if (nomorCourse > 0 && nomorCourse<= courses.size()){
+            Course selectedCourse = courses.get(nomorCourse - 1);
+
+            if (selectedCourse.isActive()){
+                System.out.println("-----------------------------");
+                System.out.println("Berikut merupakan murid yang berada di kelas ini");
+                int j = 1;
+                for (Murid murid : selectedCourse.getEnrolledStudents()){
+                    System.out.println(j + ". " + murid.getName());
+                    j++;
+                }
+            
+                System.out.println("Masukkan nomor murid: ");
+                int nomorMurid = scanner.nextInt();
+                if (nomorMurid > 0 && nomorMurid <= selectedCourse.getEnrolledStudents().length){
+                    Murid selectedMurid = selectedCourse.getEnrolledStudents()[nomorMurid-1];
+                    System.out.println("Nilai untuk " + selectedMurid.getName() + " pada " + selectedCourse.getName() + ": ");
+                    int nilai = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.println("Feedback untuk murid: ");
+                    String feedback = scanner.nextLine();
+
+                    hitungPoint(selectedMurid, nilai, selectedCourse);
+                    report.add(new ReportCard(selectedMurid, selectedCourse, nilai, feedback));
+                    selectedCourse.removeEnrolledStudent(selectedMurid);
+                    System.out.println("Report Card berhasil ditambahkan, point saat ini: " + selectedMurid.getPoint());
+                    System.out.println("Murid berhasil dihapus dari course.");
+                } else {
+                    System.out.println("Nomor murid tidak valid.");
+                }
+            }else {
+                System.out.println("Course tidak aktif.");
+            }
+        }else {
+            System.out.println("Nomor course tidak valid.");
+        }
+    }
+
+    public void hitungPoint(Murid murid, int nilai, Course course){
+        int point = 0;
+        if (nilai > 85){
+            point = 25;
+        }
+        else if (nilai >= 70){
+            point = 20;
+        }
+        else if (nilai >= 55){
+            point = 10;
+        }
+        else{
+            point = 5;
+        }
+
+        // if (course instanceof PaidCourse) {
+        //     point += 10;
+            
+        // }
+        murid.addPoint(point);
+
+        
+        
+
+    }
+
+
+
+
+
 
 
 
@@ -195,6 +399,11 @@ public class Lemao {
             penggunas.add(instruktur);
             System.out.println("Pendaftaran berhasil, silahkan login kembali.");
         }
+    }
+
+    public void logoutMenu(){
+        loginPengguna = null;
+        System.out.println("Logout berhasil.");
     }
 
 

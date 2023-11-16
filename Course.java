@@ -6,11 +6,15 @@ public class Course {
     private ArrayList<Murid> enrolledStudents = new ArrayList<Murid>();
 
     private String courseName;
+    private boolean isActive; 
+    
     
 
     public Course(Instruktur instruktur, String courseName) {
         this.instruktur = instruktur;
         this.courseName = courseName;
+        this.isActive = false;
+        
     }
 
     public String getName() {
@@ -20,16 +24,43 @@ public class Course {
    
 
     public String getInstrukturName() {
-        return instruktur.getName(); // Ganti instrukturName dengan nama instruktur
+        return instruktur.getName(); 
     }
 
     public boolean isEnrolled(Pengguna loginPengguna) {
         // Implementasi
+        for (Murid murid: enrolledStudents){
+            if (murid.equals(loginPengguna)){
+                return true;
+            }
+        }
         return false;
     }
 
     public void enroll(Pengguna loginPengguna) {
         // Implementasi
+        if (! isEnrolled(loginPengguna) && loginPengguna instanceof Murid){
+            enrolledStudents.add((Murid) loginPengguna);
+            System.out.println(loginPengguna.getName() + " berhasil di enroll ke dalam " + courseName);
+            isActive = true;
+        }
+        else{
+            System.out.println("Gagal enroll: " + loginPengguna.getName() + " sudah terdaftar di " + courseName);
+        }
+
     }
+
+    public boolean isActive() {
+        return isActive();
+    }
+
+    public Murid[] getEnrolledStudents() {
+        return null;
+    }
+
+    public void removeEnrolledStudent(Murid murid) {
+        enrolledStudents.remove(murid);
+    }
+    
 }
 
