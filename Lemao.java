@@ -247,7 +247,8 @@ public class Lemao {
             }
         }
         String cariInstruktur;
-        System.out.print("Siapa yang akan anda verifikasi? ");cariInstruktur = scanner.nextLine();
+        System.out.print("Siapa yang akan anda verifikasi? ");
+        cariInstruktur = scanner.nextLine();
         Pengguna foundUser = searchPengguna(cariInstruktur);
 
         if (foundUser != null){
