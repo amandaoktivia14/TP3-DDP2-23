@@ -30,6 +30,9 @@ public class Lemao {
             case 1:
                 lihatInstruktur(scanner);
                 break;
+            case 2:
+                verifikasiInstruktur(scanner);
+                break;
             case 0:
                 logoutMenu();
                 System.out.println("Sampai Jumpa!");
@@ -220,11 +223,42 @@ public class Lemao {
                 System.out.println("Nama: " + instruktur.getName());
                 System.out.println("Tanggal lahir: " + instruktur.getDob());
                 System.out.println("Alamat: " + instruktur.getAddress());
-                System.out.println("Status: ");
+                String status = "Not Verified";
+                if (instruktur.isApproved()) status = "Verified";
+                System.out.print("Status: " + status);
                 System.out.println("List Course:");
-
-               
+                if (instruktur.getCourses().isEmpty()) {
+                    System.out.println("Belum ada course");
+                }
+                else {
+                    for (Course course : instruktur.getCourses()) {
+                        System.out.println("- " + course.getName());
+                    }
+                }
             }
+        }
+    }
+
+    public void verifikasiInstruktur(Scanner scanner){
+        for (Pengguna pengguna : penggunas){
+            if (pengguna instanceof Instruktur){
+                Instruktur instruktur = (Instruktur) pengguna;
+                if (instruktur.isApproved()) System.out.println("- " + instruktur.getName());
+            }
+        }
+        String cariInstruktur;
+        System.out.print("Siapa yang akan anda verifikasi? ");cariInstruktur = scanner.nextLine();
+        Pengguna foundUser = searchPengguna(cariInstruktur);
+
+        if (foundUser != null){
+            if (foundUser instanceof Instruktur){
+                Instruktur instruktur = (Instruktur) foundUser;
+                Admin admin = (Admin) loginPengguna;
+                admin.verifikasiInstruktur(instruktur);
+            }      
+        }
+        else{
+            System.out.println("Pengguna tidak ditemukan");
         }
     }
 
