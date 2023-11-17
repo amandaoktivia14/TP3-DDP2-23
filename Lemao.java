@@ -160,24 +160,19 @@ public class Lemao {
     }
 
     public void lihatRapor(Scanner scanner){
+        Murid loginMurid = (Murid) loginPengguna;
         System.out.println("---------- RAPOR ----------");
         System.out.println("Total point anda: " + ((Murid) loginPengguna).getPoint());
         System.out.println("Detail: ");
 
-        for (Course course : courses){
+        for (ReportCard reportCard : loginMurid.getReportCards()){
             int i = 1;
-            for (Murid murid : course.getEnrolledStudents()){
-                if (murid.equals(loginPengguna)){
-                    System.out.println("---------- " + i +" ----------");
-                    System.out.println("Nama murid: " + murid.getName());
-                    System.out.println("Nama course: " + course.getName());
-                    System.out.println("Nilai: " + murid.getNilai(course));
-                    System.out.println("Feedback: " + murid.getFeedback(course));
-                    i++;
-
-                }
-            }
-            
+            System.out.println("---------- " + i +" ----------");
+            System.out.println("Nama murid: " + loginMurid.getName());
+            System.out.println("Nama course: " + reportCard.getCourse().getName());
+            System.out.println("Nilai: " + reportCard.getNilai());
+            System.out.println("Feedback: " + reportCard.getFeedback());
+            i++;
         }
 
     }
@@ -274,7 +269,8 @@ public class Lemao {
                     String feedback = scanner.nextLine();
 
                     hitungPoint(selectedMurid, nilai, selectedCourse);
-                    report.add(new ReportCard(selectedMurid, selectedCourse, nilai, feedback));
+                    // report.add(new ReportCard(selectedMurid, selectedCourse, nilai, feedback));
+                    selectedMurid.addReportCard(new ReportCard(selectedMurid, selectedCourse, nilai, feedback));
                     selectedCourse.removeEnrolledStudent(selectedMurid);
                     System.out.println("Report Card berhasil ditambahkan, point saat ini: " + selectedMurid.getPoint());
                     System.out.println("Murid berhasil dihapus dari course.");
@@ -384,7 +380,6 @@ public class Lemao {
     }
 
     public void keluarMenu(){
-        loginPengguna = null;
         System.out.println("Logout berhasil.");
     }
 

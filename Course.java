@@ -41,7 +41,6 @@ public class Course {
         // Implementasi
         if (! isEnrolled(loginPengguna) && loginPengguna instanceof Murid){
             enrolledStudents.add((Murid) loginPengguna);
-            System.out.println(loginPengguna.getName() + " berhasil di enroll ke dalam " + courseName);
             this.isActive = true;
         }
         else{
