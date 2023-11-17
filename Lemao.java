@@ -39,12 +39,8 @@ public class Lemao {
                 break;
 
         }
-
-
         } while (input != 0);
         scanner.close();
-
-
     }
 
     public void instrukturMenu(){
@@ -213,9 +209,6 @@ public class Lemao {
             courses.add(new Course((Instruktur) loginPengguna, namaCourse));
             System.out.println("Course berhasil ditambahkan");
         }
-
-      
-
     }
 
     public void lihatInstruktur(Scanner scanner){
@@ -300,15 +293,11 @@ public class Lemao {
             point = 5;
         }
 
-        // if (course instanceof PaidCourse) {
-        //     point += 10;
+        if (course instanceof PaidCourse) {
+            point += 10;
             
-        // }
+        }
         murid.addPoint(point);
-
-        
-        
-
     }
 
 
@@ -386,7 +375,7 @@ public class Lemao {
     public void logoutMenu() {
     
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        int input;
         do {
             System.out.println("Menu" +
             "\n1. Login" +
@@ -394,9 +383,9 @@ public class Lemao {
             "\n3. Daftar sebagai Instruktur" +
             "\n0. Keluar");
             System.out.print("Pilih menu: ");
-            choice = scanner.nextInt();
+            input = scanner.nextInt();
     
-            switch (choice) {
+            switch (input) {
                 case 1:
                     //TODO: lengkapi menu login
                     loginMenu(scanner);
@@ -417,7 +406,7 @@ public class Lemao {
                     System.out.println("Pilihan menu tidak valid.");
                     break;
             }
-        } while (choice != 0);
+        } while (input != 0);
         scanner.close();
     }
 
