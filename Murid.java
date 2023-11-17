@@ -7,8 +7,12 @@ public class Murid extends Pengguna {
     public Murid(String name, String dob, String address){
         super(name, dob, address);
     }
-    public String getTotalPoint() {
-        return null;
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public ArrayList<Course> getEnrolledCourses() {
+        return this.enrolledCourses;
     }
     public String getNilai(Course course) {
         return null;
@@ -22,7 +26,4 @@ public class Murid extends Pengguna {
     public void addPoint(int point) {
         this.point += point;
     }
-
-
-
 }

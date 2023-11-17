@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Instruktur extends Pengguna{
-    //TODO: Lengkapi kelas
+    private ArrayList<Course> courseList = new ArrayList<Course>();
     private boolean isApproved;
     private String instrukturName;
     private String instrukturDob;
@@ -28,8 +28,14 @@ public class Instruktur extends Pengguna{
     }
 
     public ArrayList<Course> getCourses() {
-        return null;
+        return courseList;
     }
 
-   
+    public void approve() {
+        this.isApproved = true;
+    }
+
+    public boolean isApproved() {
+        return isApproved;
+    }
 }

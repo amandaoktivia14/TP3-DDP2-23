@@ -54,8 +54,8 @@ public class Course {
         return this.isActive;
     }
 
-    public Murid[] getEnrolledStudents() {
-        return enrolledStudents.toArray(new Murid[0]);
+    public ArrayList<Murid> getEnrolledStudents() {
+        return enrolledStudents;
     }
 
     public void removeEnrolledStudent(Murid murid) {

@@ -161,7 +161,7 @@ public class Lemao {
 
     public void lihatRapor(Scanner scanner){
         System.out.println("---------- RAPOR ----------");
-        System.out.println("Total point anda: " + ((Murid) loginPengguna).getTotalPoint());
+        System.out.println("Total point anda: " + ((Murid) loginPengguna).getPoint());
         System.out.println("Detail: ");
 
         for (Course course : courses){
@@ -177,6 +177,7 @@ public class Lemao {
 
                 }
             }
+            
         }
 
     }
@@ -263,8 +264,8 @@ public class Lemao {
             
                 System.out.println("Masukkan nomor murid: ");
                 int nomorMurid = scanner.nextInt();
-                if (nomorMurid > 0 && nomorMurid <= selectedCourse.getEnrolledStudents().length){
-                    Murid selectedMurid = selectedCourse.getEnrolledStudents()[nomorMurid-1];
+                if (nomorMurid > 0 && nomorMurid <= selectedCourse.getEnrolledStudents().size()){
+                    Murid selectedMurid = selectedCourse.getEnrolledStudents().get(nomorMurid-1);
                     System.out.println("Nilai untuk " + selectedMurid.getName() + " pada " + selectedCourse.getName() + ": ");
                     int nilai = scanner.nextInt();
                     scanner.nextLine();
