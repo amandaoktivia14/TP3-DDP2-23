@@ -9,7 +9,7 @@ public class Lemao {
     private Pengguna loginPengguna;
     public static void main(String[] args) {
         Lemao app = new Lemao();
-        System.out.println("Welcome to Lemao! Enjoy your Learning");
+        System.out.println("Welcome to Lcelemao! Enjoy your Learning");
         
         app.initData();
 
@@ -37,7 +37,7 @@ public class Lemao {
                     app.registerInstrukturMenu(scanner); 
                     break;
                 case 0:
-                    app.logoutMenu();
+                    app.keluarMenu();
                     System.out.println("Sampai Jumpa!");
                     break;
                 default:
@@ -63,6 +63,10 @@ public class Lemao {
         switch(input){
             case 1:
                 lihatInstruktur(scanner);
+                break;
+            case 0:
+                logoutMenu();
+                System.out.println("Sampai Jumpa!");
                 break;
             default:
                 System.out.println("Pilihan menu tidak valid.");
@@ -94,7 +98,19 @@ public class Lemao {
             case 1: 
                 buatCourse(scanner);
                 break;
+            case 2: 
+                // lihatCourseSaya(scanner);
+                break;
+            case 3: 
+                buatRaporMurid(scanner);
+                break;
+            case 0:
+                logoutMenu();
+                System.out.println("Sampai Jumpa!");
+                break;
             default:
+                System.out.println("Pilihan menu tidak valid.");
+                break;
 
         }
         } while (input != 0);
@@ -118,10 +134,10 @@ public class Lemao {
                     enrollCourse(scanner);
                     break;
                 case 2:
-                    viewCourseAktif(scanner);
+                    lihatCourseAktif(scanner);
                     break;
                 case 3:
-                    
+                    lihatRapor(scanner);
                     break;
                 case 0:
                     System.out.println("Logout berhasil");
@@ -151,6 +167,7 @@ public class Lemao {
             if (!selectedCourse.isEnrolled(loginPengguna)) {
                 selectedCourse.enroll(loginPengguna);
                 System.out.println(selectedCourse.getName() + " berhasil di enroll");
+                selectedCourse.setActive(true);
             } else {
                 System.out.println("Gagal Enroll: " + selectedCourse.getName() + " sedang di enroll");
             }
@@ -161,14 +178,17 @@ public class Lemao {
         }
     }
 
-    public void viewCourseAktif(Scanner scanner){
+    public void lihatCourseAktif(Scanner scanner){
         System.out.println("-------- Course aktif saat ini --------");
         int i = 1;
         for (Course course : courses){
-            if (course.isActive()){
+            if (course.isActive() && course.isEnrolled(loginPengguna)){
                 System.out.println(i + ". Nama course: " + course.getName() + " - Instruktur: " + course.getInstrukturName());
                 i++;
             }
+        }
+        if (i == 1) {
+            System.out.println("Tidak ada course aktif yang di-enroll.");
         }
     }
 
@@ -328,12 +348,6 @@ public class Lemao {
     }
 
 
-
-
-
-
-
-
     public void loginMenu(Scanner scanner){
         scanner.nextLine();
         System.out.println("Masukkan nama pengguna: ");
@@ -401,9 +415,13 @@ public class Lemao {
         }
     }
 
-    public void logoutMenu(){
+    public void keluarMenu(){
         loginPengguna = null;
         System.out.println("Logout berhasil.");
+    }
+
+    public void logoutMenu(){
+        
     }
 
 

@@ -42,7 +42,7 @@ public class Course {
         if (! isEnrolled(loginPengguna) && loginPengguna instanceof Murid){
             enrolledStudents.add((Murid) loginPengguna);
             System.out.println(loginPengguna.getName() + " berhasil di enroll ke dalam " + courseName);
-            isActive = true;
+            this.isActive = true;
         }
         else{
             System.out.println("Gagal enroll: " + loginPengguna.getName() + " sudah terdaftar di " + courseName);
@@ -51,15 +51,19 @@ public class Course {
     }
 
     public boolean isActive() {
-        return isActive();
+        return this.isActive;
     }
 
     public Murid[] getEnrolledStudents() {
-        return null;
+        return enrolledStudents.toArray(new Murid[0]);
     }
 
     public void removeEnrolledStudent(Murid murid) {
         enrolledStudents.remove(murid);
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive; 
     }
     
 }
