@@ -12,41 +12,7 @@ public class Lemao {
         System.out.println("Welcome to Lcelemao! Enjoy your Learning");
         
         app.initData();
-
-        Scanner scanner = new Scanner(System.in);
-        int choice;
-        do {
-            System.out.println("Menu" +
-            "\n1. Login" +
-            "\n2. Daftar sebagai Murid" +
-            "\n3. Daftar sebagai Instruktur" +
-            "\n0. Keluar");
-            System.out.print("Pilih menu: ");
-            choice = scanner.nextInt();
-            switch (choice){
-                case 1:
-                    //TODO: lengkapi menu login
-                    app.loginMenu(scanner);
-                    break;
-                case 2:
-                    //TODO: lengkapi menu daftar
-                    app.registerMuridMenu(scanner);
-                    break;
-                case 3:
-                    //TODO: lengkapi menu daftar
-                    app.registerInstrukturMenu(scanner); 
-                    break;
-                case 0:
-                    app.keluarMenu();
-                    System.out.println("Sampai Jumpa!");
-                    break;
-                default:
-                    System.out.println("Pilihan menu tidak valid.");
-                    break;
-            }
-        } while (choice !=0);
-        scanner.close();
-    }
+        app.logoutMenu(); }
 
     public void adminMenu(){
         //TODO: Lengkapi menu instruktur
@@ -140,6 +106,7 @@ public class Lemao {
                     lihatRapor(scanner);
                     break;
                 case 0:
+                    logoutMenu();
                     System.out.println("Logout berhasil");
                     break;
                 default:
@@ -420,8 +387,42 @@ public class Lemao {
         System.out.println("Logout berhasil.");
     }
 
-    public void logoutMenu(){
-        
+    public void logoutMenu() {
+    
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("Menu" +
+            "\n1. Login" +
+            "\n2. Daftar sebagai Murid" +
+            "\n3. Daftar sebagai Instruktur" +
+            "\n0. Keluar");
+            System.out.print("Pilih menu: ");
+            choice = scanner.nextInt();
+    
+            switch (choice) {
+                case 1:
+                    //TODO: lengkapi menu login
+                    loginMenu(scanner);
+                    break;
+                case 2:
+                    //TODO: lengkapi menu daftar
+                    registerMuridMenu(scanner);
+                    break;
+                case 3:
+                    //TODO: lengkapi menu daftar
+                    registerInstrukturMenu(scanner);
+                    break;
+                case 0:
+                    keluarMenu();
+                    System.out.println("Sampai Jumpa!");
+                    break;
+                default:
+                    System.out.println("Pilihan menu tidak valid.");
+                    break;
+            }
+        } while (choice != 0);
+        scanner.close();
     }
 
 
