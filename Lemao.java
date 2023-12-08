@@ -64,7 +64,7 @@ public class Lemao {
                 buatCourse(scanner);
                 break;
             case 2: 
-                // lihatCourseSaya(scanner);
+                lihatCourseSaya(scanner);
                 break;
             case 3: 
                 buatRaporMurid(scanner);
@@ -214,6 +214,30 @@ public class Lemao {
         }
     }
 
+    public void lihatCourseSaya(Scanner scanner){
+        int i = 1;
+        for (Course course : courses){
+            System.out.println("-------  " + i + "   -------");
+            System.out.println("Nama Course: " + course.getName());
+            System.out.println("Nama Instruktur: " + course.getInstrukturName());
+            System.out.println("Jumlah Murid: " + course.getJumlahMurid());
+            System.out.println("List Murid: ");
+
+            ArrayList<Murid> enrolledStudents = course.getEnrolledStudents();
+            if (! enrolledStudents.isEmpty()){
+                for (Murid murid : enrolledStudents){
+                    System.out.println("- " + murid.getName());
+                }
+            }
+            else{
+                System.out.println("Belum ada murid terdaftar.");
+            }
+
+            
+        }
+           
+    }
+
     public void lihatInstruktur(Scanner scanner){
         int i = 1;
         for (Pengguna pengguna : penggunas){
@@ -334,6 +358,7 @@ public class Lemao {
         }
         murid.addPoint(point);
     }
+
 
 
     public void loginMenu(Scanner scanner){

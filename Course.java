@@ -64,6 +64,11 @@ public class Course {
     public void setActive(boolean isActive) {
         this.isActive = isActive; 
     }
+    public int getJumlahMurid() {
+        return enrolledStudents.size();
+    }
+
+ 
     
 }
 
